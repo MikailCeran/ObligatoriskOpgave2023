@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\mikai\\Downloads\\BookAssignment\\BookAssignment\\BookAssignment\\BookAssignment.csproj": {}
+    "C:\\Users\\ceran\\Desktop\\ObligatoriskOpgave2023\\BookAssignment\\BookAssignment.csproj": {}
   },
   "projects": {
-    "C:\\Users\\mikai\\Downloads\\BookAssignment\\BookAssignment\\BookAssignment\\BookAssignment.csproj": {
+    "C:\\Users\\ceran\\Desktop\\ObligatoriskOpgave2023\\BookAssignment\\BookAssignment.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\mikai\\Downloads\\BookAssignment\\BookAssignment\\BookAssignment\\BookAssignment.csproj",
+        "projectUniqueName": "C:\\Users\\ceran\\Desktop\\ObligatoriskOpgave2023\\BookAssignment\\BookAssignment.csproj",
         "projectName": "BookAssignment",
-        "projectPath": "C:\\Users\\mikai\\Downloads\\BookAssignment\\BookAssignment\\BookAssignment\\BookAssignment.csproj",
-        "packagesPath": "C:\\Users\\mikai\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\mikai\\Downloads\\BookAssignment\\BookAssignment\\BookAssignment\\obj\\",
+        "projectPath": "C:\\Users\\ceran\\Desktop\\ObligatoriskOpgave2023\\BookAssignment\\BookAssignment.csproj",
+        "packagesPath": "C:\\Users\\ceran\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\ceran\\Desktop\\ObligatoriskOpgave2023\\BookAssignment\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\mikai\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\ceran\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -40,9 +40,21 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "dependencies": {
+            "EntityFramework": {
+              "target": "Package",
+              "version": "[6.4.4, )"
+            },
             "MSTest.TestAdapter": {
               "target": "Package",
               "version": "[3.1.1, )"
+            },
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[7.0.11, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[7.0.11, )"
             },
             "Microsoft.NET.Test.Sdk": {
               "target": "Package",
@@ -65,7 +77,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.101\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.400\\RuntimeIdentifierGraph.json"
         }
       }
     }

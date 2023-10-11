@@ -1,63 +1,70 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using BookAssignment;
+﻿using BookAssignment;
+using BookLib;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.Extensions.Options;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace BookTest
+namespace BookAssignment
 {
     [TestClass]
-    public class BookRepositoryTests
+    public class BooksRepositoryDBTest
     {
-        private BookRepository _bookRepo;
+        private static BooksDBContext? _dbContext;
+        private static Ibook _repo;
+        private static DbContextOptionsBuilder<BooksDBContext> optionsBuilder;
+
+        [ClassInitialize]
+        public static void InitOnce(TestContext context)
+        {
+            optionsBuilder = new DbContextOptionsBuilder<BooksDBContext>();
+            optionsBuilder.UseSqlServer(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=BookAssignmentDB;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False");
+        }
 
         [TestInitialize]
-        public void Initialize()
+        public void TestSeup()
         {
-            _bookRepo = new BookRepository();
+            _dbContext = new BooksDBContext(optionsBuilder.Options);
+            _dbContext.Database.ExecuteSqlRaw("TRUNCATE TABLE dbo.Books");
+            _repo = new BooksRepositoryDB(_dbContext);
+            _repo.Add(new Book() { Title = "Harry Potter", Price = 199.99 });
+            _repo.Add(new Book() { Title = "Lord of the Rings", Price = 169.99 });
+            _repo.Add(new Book() { Title = "Jurassic Park", Price = 129.99 });
+            _repo.Add(new Book() { Title = "Twilight", Price = 89.99 });
+            _repo.Add(new Book() { Title = "The Godfather", Price = 89.99 });
         }
 
         [TestMethod]
-        public void Get_FilterByTitle_Success()
+        public void AddBookTest()
         {
-            string titleToFilter = "Rich dad poor dad";
+            
+            Book snowWhite = _repo.Add(new Book { Title = "Snehvide", Price = 59.99 });
 
-            var filteredBooks = _bookRepo.Get(title: titleToFilter);
+            Assert.IsTrue(snowWhite.Id >= 0);
+            Assert.AreEqual("Snehvide", snowWhite.Title);
+            Assert.AreEqual(59.99, snowWhite.Price);
 
-            Assert.AreEqual(1, filteredBooks.Count()); 
-            Assert.AreEqual(titleToFilter, filteredBooks.First().Title);
+            // Hent alle b�ger fra repository
+            IEnumerable<Book> allBooks = _repo.Get();
+            Assert.AreEqual(6, allBooks.Count());
         }
 
-        [TestMethod]
-        public void Add_Book_Success()
+        [TestMethod()]
+        public void UpdateTest()
         {
-            Book newBook = new Book() { Id = 6, Title = "CSharpEasy", Price = 799.99 };
+            Book? book = _repo.Update(1, new Book { Title = "Harry Potter and the Deathly Hallows", Price = 299.99 });
+            Assert.IsNotNull(book);
+            Book? book2 = _repo.GetById(1);
+            Assert.AreEqual("Harry Potter and the Deathly Hallows", book.Title);
 
-            var addedBook = _bookRepo.Add(newBook);
-            var retrievedBook = _bookRepo.GetById(6);
-
-            Assert.IsNotNull(addedBook);
-            Assert.AreEqual(newBook.Id, addedBook.Id);
-            Assert.IsNotNull(retrievedBook);
-            Assert.AreEqual(newBook.Id, retrievedBook.Id);
+            Assert.IsNull(_repo.Update(-1, new Book { Title = "Buh", Price = 299.99 }));
+            Assert.ThrowsException<ArgumentException>(() => _repo.Update(1, new Book { Title = "", Price = 299.99 }));
         }
-
-        [TestMethod]
-        public void Update_ExistingBook_Success()
-        {
-            int IdToUpdate = 2;
-            Book updatedBook = new Book() { Id = IdToUpdate, Title = "Updated Book", Price = 599.99 };
-
-            var result = _bookRepo.Update(IdToUpdate, updatedBook);
-            var retrievedBook = _bookRepo.GetById(IdToUpdate);
-
-            Assert.IsNotNull(result);
-            Assert.AreEqual(updatedBook.Id, result.Id);
-            Assert.IsNotNull(retrievedBook);
-            Assert.AreEqual(updatedBook.Id, retrievedBook.Id);
-            Assert.AreEqual(updatedBook.Title, retrievedBook.Title);
-            Assert.AreEqual(updatedBook.Price, retrievedBook.Price);
-        }
-         
     }
 }

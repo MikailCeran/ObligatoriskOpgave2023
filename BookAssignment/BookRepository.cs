@@ -1,24 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 
 namespace BookAssignment
 {
     public class BookRepository
     {
-
         private int _nextId = 1;
-        private readonly List<Book> _books = new();
-
-        public BookRepository()
+        private readonly List<Book> _books = new List<Book>
         {
-            _books.Add(new Book() { Id = _nextId++, Title = "10 Ways To Win", Price = 1000 });
-            _books.Add(new Book() { Id = _nextId++, Title = "Rich dad poor dad", Price = 499 });
-            _books.Add(new Book() { Id = _nextId++, Title = "Nur al idah", Price = 399 });
-            _books.Add(new Book() { Id = _nextId++, Title = "The nun", Price = 599 });
-            _books.Add(new Book() { Id = _nextId++, Title = "Harry Potter 1", Price = 99 });
-        }
+            new Book { Id = 1, Title = "Harry Potter", Price = 199.99 },
+            new Book { Id = 2, Title = "Lord of the Rings", Price = 169.99 },
+            new Book { Id = 3, Title = "Jurassic Park", Price = 129.99 },
+            new Book { Id = 4, Title = "Twilight", Price = 89.99 },
+            new Book { Id = 5, Title = "The Godfather", Price = 89.99 }
+        };
+
         public IEnumerable<Book> Get(string? title = null, double? price = null, string? orderBy = null)
         {
             IEnumerable<Book> result = new List<Book>(_books);
@@ -68,9 +65,6 @@ namespace BookAssignment
 
         public Book Add(Book book)
         {
-            book.ValidateTitle(); 
-            book.ValidatePrice(); 
-
             book.Id = _nextId++;
             _books.Add(book);
             return book;
@@ -89,9 +83,6 @@ namespace BookAssignment
 
         public Book? Update(int id, Book book)
         {
-            book.ValidateTitle(); // Assuming you have a ValidateTitle method in your Book class.
-            book.ValidatePrice(); // Assuming you have a ValidatePrice method in your Book class.
-
             Book? existingBook = GetById(id);
             if (existingBook == null)
             {
@@ -101,6 +92,5 @@ namespace BookAssignment
             existingBook.Price = book.Price;
             return existingBook;
         }
-       
     }
 }
