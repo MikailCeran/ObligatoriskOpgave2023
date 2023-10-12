@@ -24,7 +24,7 @@ namespace BookAssignment
         public static void InitOnce(TestContext context)
         {
             optionsBuilder = new DbContextOptionsBuilder<BooksDBContext>();
-            optionsBuilder.UseSqlServer(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=BookAssignmentDB;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False");
+            optionsBuilder.UseSqlServer(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Shawal;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False");
         }
 
         [TestInitialize]
@@ -33,11 +33,11 @@ namespace BookAssignment
             _dbContext = new BooksDBContext(optionsBuilder.Options);
             _dbContext.Database.ExecuteSqlRaw("TRUNCATE TABLE dbo.Books");
             _repo = new BooksRepositoryDB(_dbContext);
-            _repo.Add(new Book() { Title = "Harry Potter", Price = 199.99 });
-            _repo.Add(new Book() { Title = "Lord of the Rings", Price = 169.99 });
-            _repo.Add(new Book() { Title = "Jurassic Park", Price = 129.99 });
-            _repo.Add(new Book() { Title = "Twilight", Price = 89.99 });
-            _repo.Add(new Book() { Title = "The Godfather", Price = 89.99 });
+            _repo.Add(new Book() { Title = "Deep work", Price = 199.99 });
+            _repo.Add(new Book() { Title = "Power", Price = 200});
+            _repo.Add(new Book() { Title = "The laws of human shawal", Price = 129.99 });
+            _repo.Add(new Book() { Title = "48 Laws of power", Price = 400 });
+            _repo.Add(new Book() { Title = "The sealed nectar", Price = 300});
         }
 
         [TestMethod]

@@ -14,7 +14,6 @@ namespace BookLib
         public Book Add(Book book)
         {
             book.Validate();
-            book.Id = 0;
             _context.Books.Add(book);
             _context.SaveChanges();
             return book;
